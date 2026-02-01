@@ -390,14 +390,14 @@
         <!-- Evaluation Tab -->
         <div class="tab-content active" id="evaluationContent">
             <div class="iframe-container">
-                <iframe id="evaluationFrame" src="scout_evaluation.html" title="แบบประเมิน"></iframe>
+                <iframe id="evaluationFrame" src="" title="แบบประเมิน" onload="handleIframeLoad('evaluation')" onerror="handleIframeError('evaluation')"></iframe>
             </div>
         </div>
 
         <!-- Dashboard Tab -->
         <div class="tab-content" id="dashboardContent">
             <div class="iframe-container">
-                <iframe id="dashboardFrame" src="" title="Dashboard"></iframe>
+                <iframe id="dashboardFrame" src="" title="Dashboard" onload="handleIframeLoad('dashboard')" onerror="handleIframeError('dashboard')"></iframe>
             </div>
         </div>
     </div>
@@ -405,6 +405,7 @@
     <script>
         let currentTab = 'evaluation';
         let dashboardUnlocked = false;
+        let evaluationLoaded = false;
         const PASSWORD = 'silverfish';
 
         // Show tab function
@@ -431,12 +432,83 @@
             if (content) content.classList.add('active');
             if (button) button.classList.add('active');
 
-            // Load dashboard iframe if needed
-            if (tabName === 'dashboard' && dashboardUnlocked) {
+            // Load content for iframe sections
+            if (tabName === 'evaluation' && !evaluationLoaded) {
+                loadEvaluation();
+            } else if (tabName === 'dashboard' && dashboardUnlocked) {
                 loadDashboard();
             }
 
             currentTab = tabName;
+        }
+
+        // Load evaluation iframe
+        function loadEvaluation() {
+            const evaluationFrame = document.getElementById('evaluationFrame');
+            showLoading();
+            
+            // Check if scout_evaluation.html exists
+            fetch('scout_evaluation.html', { method: 'HEAD' })
+                .then(response => {
+                    if (response.ok) {
+                        evaluationFrame.src = 'scout_evaluation.html';
+                        evaluationLoaded = true;
+                    } else {
+                        throw new Error('File not found');
+                    }
+                })
+                .catch(() => {
+                    // If file doesn't exist, create a simple evaluation form
+                    createSimpleEvaluationForm();
+                });
+        }
+
+        // Create simple evaluation form if file doesn't exist
+        function createSimpleEvaluationForm() {
+            const evaluationFrame = document.getElementById('evaluationFrame');
+            const simpleForm = `
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>แบบประเมิน</title>
+                    <style>
+                        body { font-family: 'Kanit', sans-serif; padding: 20px; background: #f5f5f5; }
+                        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }
+                        .title { text-align: center; color: #333; margin-bottom: 30px; }
+                        .form-group { margin-bottom: 20px; }
+                        .form-label { font-weight: 500; margin-bottom: 10px; display: block; }
+                        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+                        .btn { background: #4e54c8; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; }
+                        .alert { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h1 class="title">แบบประเมินความพึงพอใจ</h1>
+                        <div class="alert">
+                            <strong>หมายเหตุ:</strong> นี่เป็นแบบประเมินตัวอย่าง กรุณาอัพโหลดไฟล์ scout_evaluation.html เพื่อใช้งานแบบประเมินจริง
+                        </div>
+                        <form>
+                            <div class="form-group">
+                                <label class="form-label">ชื่อ-นามสกุล:</label>
+                                <input type="text" class="form-control" placeholder="กรอกชื่อ-นามสกุล">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">ความคิดเห็นเพิ่มเติม:</label>
+                                <textarea class="form-control" rows="4" placeholder="กรอกความคิดเห็น..."></textarea>
+                            </div>
+                            <button type="button" class="btn" onclick="alert('ขอบคุณสำหรับการประเมิน!')">ส่งแบบประเมิน</button>
+                        </form>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            const blob = new Blob([simpleForm], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            evaluationFrame.src = url;
+            evaluationLoaded = true;
+            hideLoading();
         }
 
         // Show password modal
@@ -492,12 +564,88 @@
             const dashboardFrame = document.getElementById('dashboardFrame');
             if (dashboardFrame.src === '') {
                 showLoading();
-                dashboardFrame.src = 'dashboard.html';
                 
-                dashboardFrame.onload = function() {
-                    hideLoading();
-                };
+                // Check if dashboard.html exists
+                fetch('dashboard.html', { method: 'HEAD' })
+                    .then(response => {
+                        if (response.ok) {
+                            dashboardFrame.src = 'dashboard.html';
+                        } else {
+                            throw new Error('Dashboard file not found');
+                        }
+                    })
+                    .catch(() => {
+                        // Create simple dashboard if file doesn't exist
+                        createSimpleDashboard();
+                    });
             }
+        }
+
+        // Create simple dashboard if file doesn't exist
+        function createSimpleDashboard() {
+            const dashboardFrame = document.getElementById('dashboardFrame');
+            const simpleDashboard = `
+                <html>
+                <head>
+                    <meta charset="UTF-8">
+                    <title>Dashboard</title>
+                    <style>
+                        body { font-family: 'Kanit', sans-serif; padding: 20px; background: #f5f5f5; }
+                        .container { max-width: 1000px; margin: 0 auto; }
+                        .title { text-align: center; color: #333; margin-bottom: 30px; }
+                        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+                        .stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                        .stat-number { font-size: 2rem; font-weight: bold; color: #4e54c8; }
+                        .stat-label { color: #666; margin-top: 5px; }
+                        .alert { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; padding: 15px; border-radius: 5px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <h1 class="title">📊 Dashboard การประเมิน</h1>
+                        <div class="alert">
+                            <strong>หมายเหตุ:</strong> นี่เป็น Dashboard ตัวอย่าง กรุณาอัพโหลดไฟล์ dashboard.html เพื่อใช้งาน Dashboard จริง
+                        </div>
+                        <div class="stats">
+                            <div class="stat-card">
+                                <div class="stat-number">0</div>
+                                <div class="stat-label">ผู้ตอบแบบประเมิน</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">0.0</div>
+                                <div class="stat-label">คะแนนเฉลี่ย</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">0</div>
+                                <div class="stat-label">ผู้กำกับลูกเสือ</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">0</div>
+                                <div class="stat-label">นักเรียน</div>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+                </html>
+            `;
+            
+            const blob = new Blob([simpleDashboard], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            dashboardFrame.src = url;
+            hideLoading();
+        }
+
+        // Handle iframe load
+        function handleIframeLoad(type) {
+            if (currentTab === type) {
+                hideLoading();
+            }
+        }
+
+        // Handle iframe errors
+        function handleIframeError(type) {
+            hideLoading();
+            console.error('Iframe error for:', type);
         }
 
         // Show loading screen
@@ -521,13 +669,6 @@
         document.getElementById('passwordModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closePasswordModal();
-            }
-        });
-
-        // Handle iframe load events
-        document.getElementById('evaluationFrame').addEventListener('load', function() {
-            if (currentTab === 'evaluation') {
-                hideLoading();
             }
         });
 
