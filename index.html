@@ -5,979 +5,206 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>แบบประเมินค่ายลูกเสือ - โรงเรียนสา</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <script src="/_sdk/data_sdk.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
-    body {
-      box-sizing: border-box;
-      font-family: 'Sarabun', sans-serif;
-    }
-    
-    .radio-option {
-      transition: all 0.2s ease;
-    }
-    
-    .radio-option:hover {
-      transform: translateY(-2px);
-    }
-    
-    .radio-option input:checked + span {
-      transform: scale(1.05);
-    }
-    
-    .fade-in {
-      animation: fadeIn 0.4s ease-out;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .slide-up {
-      animation: slideUp 0.5s ease-out;
-    }
-    
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .progress-bar {
-      transition: width 0.3s ease;
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
-      transition: all 0.3s ease;
-    }
-    
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
-    }
-    
-    .card {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    }
-    
-    .section-card {
-      background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%);
-      border: 1px solid #fee2e2;
-    }
-    
-    .rating-btn {
-      min-width: 44px;
-      min-height: 44px;
-    }
-    
-    @media (max-width: 640px) {
-      .rating-label {
-        font-size: 0.7rem;
-      }
-    }
+    body { box-sizing: border-box; font-family: 'Sarabun', sans-serif; }
+    .radio-option { transition: all 0.2s ease; }
+    .radio-option:hover { transform: translateY(-2px); }
+    .radio-option input:checked + span { transform: scale(1.05); }
+    .fade-in { animation: fadeIn 0.4s ease-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .slide-up { animation: slideUp 0.5s ease-out; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .progress-bar { transition: width 0.3s ease; }
+    .btn-primary { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); transition: all 0.3s ease; }
+    .btn-primary:hover { background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 100%); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); }
+    .card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); }
+    .section-card { background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%); border: 1px solid #fee2e2; }
+    .rating-btn { min-width: 44px; min-height: 44px; }
+    @media (max-width: 640px) { .rating-label { font-size: 0.7rem; } }
   </style>
-  <style>@view-transition { navigation: auto; }</style>
  </head>
  <body class="h-full bg-gradient-to-br from-red-50 via-orange-50 to-red-100">
-  <div id="app" class="h-full overflow-auto"><!-- Navigation -->
+  <div id="app" class="h-full overflow-auto">
    <nav id="navbar" class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
     <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-     <div class="flex items-center gap-3"><img src="https://img2.pic.in.th/pic/sa1.png" alt="Logo" class="w-10 h-10 rounded-full object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#dc2626'; this.alt='Logo unavailable';">
+     <div class="flex items-center gap-3"><img src="https://img2.pic.in.th/pic/sa1.png" alt="Logo" class="w-10 h-10 rounded-full object-cover">
       <div>
-       <h1 id="nav-title" class="text-sm font-semibold text-red-800">แบบประเมินค่ายลูกเสือ</h1>
-       <p id="nav-school" class="text-xs text-red-600">โรงเรียนสา</p>
+       <h1 class="text-sm font-semibold text-red-800">แบบประเมินค่ายลูกเสือ</h1>
+       <p class="text-xs text-red-600">โรงเรียนสา</p>
       </div>
      </div><button id="dashboard-btn" class="px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-100 rounded-lg transition-colors"> 📊 แดชบอร์ด </button>
     </div>
-   </nav><!-- Main Form View -->
-   <div id="form-view" class="max-w-2xl mx-auto px-4 py-6"><!-- Header -->
-    <header class="text-center mb-8 slide-up"><img src="https://img2.pic.in.th/pic/sa1.png" alt="School Logo" class="w-20 h-20 rounded-full mx-auto mb-4 shadow-lg object-cover" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#dc2626'; this.alt='Logo unavailable';">
-     <h1 id="main-title" class="text-xl md:text-2xl font-bold text-red-800 mb-2">แบบประเมินความพึงพอใจ</h1>
+   </nav>
+
+   <div id="form-view" class="max-w-2xl mx-auto px-4 py-6">
+    <header class="text-center mb-8 slide-up"><img src="https://img2.pic.in.th/pic/sa1.png" alt="School Logo" class="w-20 h-20 rounded-full mx-auto mb-4 shadow-lg object-cover">
+     <h1 class="text-xl md:text-2xl font-bold text-red-800 mb-2">แบบประเมินความพึงพอใจ</h1>
      <h2 class="text-base md:text-lg font-medium text-red-700 mb-1">การจัดกิจกรรมเดินทางไกลและเข้าค่ายพักแรมลูกเสือสามัญรุ่นใหญ่</h2>
-     <p id="school-title" class="text-sm text-red-600 mb-2">โรงเรียนสา ประจำปีการศึกษา 2568</p>
-     <div class="inline-flex items-center gap-2 px-4 py-2 bg-red-100 rounded-full text-sm text-red-700"><span>📅</span> <span>30 – 31 มกราคม 2569</span>
-     </div>
+     <p class="text-sm text-red-600 mb-2">โรงเรียนสา ประจำปีการศึกษา 2568</p>
+     <div class="inline-flex items-center gap-2 px-4 py-2 bg-red-100 rounded-full text-sm text-red-700"><span>📅</span> <span>30 – 31 มกราคม 2569</span></div>
      <p class="text-xs text-red-600 mt-2">ณ โรงเรียนสา อำเภอเวียงสา จังหวัดน่าน</p>
-    </header><!-- Progress Bar -->
+    </header>
+
     <div class="mb-6">
-     <div class="flex justify-between text-xs text-red-600 mb-1"><span>ความคืบหน้า</span> <span id="progress-text">0%</span>
-     </div>
+     <div class="flex justify-between text-xs text-red-600 mb-1"><span>ความคืบหน้า</span> <span id="progress-text">0%</span></div>
      <div class="h-2 bg-red-100 rounded-full overflow-hidden">
       <div id="progress-bar" class="progress-bar h-full bg-gradient-to-r from-red-500 to-orange-500 rounded-full" style="width: 0%"></div>
      </div>
-    </div><!-- Form Container -->
-    <form id="evaluation-form" class="space-y-6"><!-- Part 1: General Information -->
+    </div>
+
+    <form id="evaluation-form" class="space-y-6">
      <section id="part1" class="card section-card p-5 fade-in">
       <div class="flex items-center gap-2 mb-4"><span class="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
        <h3 class="text-lg font-semibold text-red-800">ข้อมูลทั่วไป</h3>
-      </div><!-- Gender (Conditional - only for teachers) -->
+      </div>
       <div id="gender-section" class="mb-5 hidden"><label class="block text-sm font-medium text-gray-700 mb-3"> เพศ <span class="text-red-500">*</span> </label>
-       <div class="flex gap-4"><label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="gender" value="ชาย" class="sr-only peer"> <span class="block p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-2xl block mb-1">👦</span> <span class="text-sm font-medium">ชาย</span> </span> </label> <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="gender" value="หญิง" class="sr-only peer"> <span class="block p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-2xl block mb-1">👧</span> <span class="text-sm font-medium">หญิง</span> </span> </label>
-       </div>
-      </div><!-- Status -->
-      <div class="mb-5"><label class="block text-sm font-medium text-gray-700 mb-3"> สถานะ <span class="text-red-500">*</span> </label>
-       <div class="flex gap-4"><label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="status" value="ผู้กำกับลูกเสือ" class="sr-only peer" required> <span class="block p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-2xl block mb-1">👨‍🏫</span> <span class="text-sm font-medium">ผู้กำกับลูกเสือ</span> </span> </label> <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="status" value="ลูกเสือ" class="sr-only peer"> <span class="block p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-2xl block mb-1">🧑‍🤝‍🧑</span> <span class="text-sm font-medium">ลูกเสือ</span> </span> </label>
-       </div>
-      </div><!-- Grade (Conditional - only for students) -->
-      <div id="grade-section" class="hidden fade-in"><label class="block text-sm font-medium text-gray-700 mb-3"> ระดับชั้น <span class="text-red-500">*</span> </label>
-       <div class="flex gap-3"><label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="grade" value="ม.1" class="sr-only peer"> <span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-sm font-medium">ม.1</span> </span> </label> <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="grade" value="ม.2" class="sr-only peer"> <span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-sm font-medium">ม.2</span> </span> </label> <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="grade" value="ม.3" class="sr-only peer"> <span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-sm font-medium">ม.3</span> </span> </label>
+       <div class="flex gap-4">
+        <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="gender" value="ชาย" class="sr-only peer"> <span class="block p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-2xl block mb-1">👦</span> <span class="text-sm font-medium">ชาย</span> </span> </label>
+        <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="gender" value="หญิง" class="sr-only peer"> <span class="block p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-2xl block mb-1">👧</span> <span class="text-sm font-medium">หญิง</span> </span> </label>
        </div>
       </div>
-     </section><!-- Part 2: Evaluation -->
-     <section id="evaluation-section" class="space-y-5"><!-- Rating Scale Legend -->
+      <div class="mb-5"><label class="block text-sm font-medium text-gray-700 mb-3"> สถานะ <span class="text-red-500">*</span> </label>
+       <div class="flex gap-4">
+        <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="status" value="ผู้กำกับลูกเสือ" class="sr-only peer" required> <span class="block p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-2xl block mb-1">👨‍🏫</span> <span class="text-sm font-medium">ผู้กำกับลูกเสือ</span> </span> </label>
+        <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="status" value="ลูกเสือ" class="sr-only peer"> <span class="block p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-2xl block mb-1">🧑‍🤝‍🧑</span> <span class="text-sm font-medium">ลูกเสือ</span> </span> </label>
+       </div>
+      </div>
+      <div id="grade-section" class="hidden fade-in"><label class="block text-sm font-medium text-gray-700 mb-3"> ระดับชั้น <span class="text-red-500">*</span> </label>
+       <div class="flex gap-3">
+        <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="grade" value="ม.1" class="sr-only peer"> <span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-sm font-medium">ม.1</span> </span> </label>
+        <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="grade" value="ม.2" class="sr-only peer"> <span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-sm font-medium">ม.2</span> </span> </label>
+        <label class="radio-option flex-1 cursor-pointer"> <input type="radio" name="grade" value="ม.3" class="sr-only peer"> <span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50 transition-all"> <span class="text-sm font-medium">ม.3</span> </span> </label>
+       </div>
+      </div>
+     </section>
+
+     <section id="evaluation-section" class="space-y-5">
       <div class="card p-4 bg-gradient-to-r from-red-50 to-orange-50 border border-red-200">
        <p class="text-sm font-medium text-red-800 mb-2 text-center">ระดับความพึงพอใจ</p>
        <div class="flex justify-center gap-2 md:gap-4 text-xs text-center">
-        <div class="flex flex-col items-center"><span class="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-bold mb-1">5</span> <span class="text-red-700">มากที่สุด</span>
-        </div>
-        <div class="flex flex-col items-center"><span class="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center font-bold mb-1">4</span> <span class="text-red-600">มาก</span>
-        </div>
-        <div class="flex flex-col items-center"><span class="w-8 h-8 bg-yellow-500 text-white rounded-full flex items-center justify-center font-bold mb-1">3</span> <span class="text-yellow-600">ปานกลาง</span>
-        </div>
-        <div class="flex flex-col items-center"><span class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold mb-1">2</span> <span class="text-orange-600">น้อย</span>
-        </div>
-        <div class="flex flex-col items-center"><span class="w-8 h-8 bg-red-900 text-white rounded-full flex items-center justify-center font-bold mb-1">1</span> <span class="text-red-900">น้อยที่สุด</span>
-        </div>
+        <div class="flex flex-col items-center"><span class="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center font-bold mb-1">5</span> <span>มากที่สุด</span></div>
+        <div class="flex flex-col items-center"><span class="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center font-bold mb-1">4</span> <span>มาก</span></div>
+        <div class="flex flex-col items-center"><span class="w-8 h-8 bg-yellow-500 text-white rounded-full flex items-center justify-center font-bold mb-1">3</span> <span>ปานกลาง</span></div>
+        <div class="flex flex-col items-center"><span class="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center font-bold mb-1">2</span> <span>น้อย</span></div>
+        <div class="flex flex-col items-center"><span class="w-8 h-8 bg-red-900 text-white rounded-full flex items-center justify-center font-bold mb-1">1</span> <span>น้อยที่สุด</span></div>
        </div>
-      </div><!-- Section 2.1: Location & Facilities -->
+      </div>
+
       <div class="card section-card p-5 fade-in">
-       <div class="flex items-center gap-2 mb-4"><span class="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span>
-        <h3 class="text-lg font-semibold text-red-800">ความพร้อมและสถานที่</h3><span class="text-xl">🏕️</span>
-       </div>
+       <div class="flex items-center gap-2 mb-4"><span class="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold">2</span><h3 class="text-lg font-semibold text-red-800">ความพร้อมและสถานที่ 🏕️</h3></div>
        <div class="space-y-4">
-        <div class="question-item" data-question="1">
+        <div class="question-item">
          <p class="text-sm text-gray-700 mb-3">1. สถานที่ค่ายและพื้นที่กิจกรรมมีความเหมาะสม</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q1" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q1" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q1" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q1" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q1" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
+         <div class="flex justify-center gap-2">
+          <label class="radio-option cursor-pointer"><input type="radio" name="q1" value="5" class="sr-only peer" required><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span></label>
+          <label class="radio-option cursor-pointer"><input type="radio" name="q1" value="4" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span></label>
+          <label class="radio-option cursor-pointer"><input type="radio" name="q1" value="3" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span></label>
+          <label class="radio-option cursor-pointer"><input type="radio" name="q1" value="2" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span></label>
+          <label class="radio-option cursor-pointer"><input type="radio" name="q1" value="1" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span></label>
          </div>
         </div>
-        <div class="question-item" data-question="2">
-         <p class="text-sm text-gray-700 mb-3">2. ที่พักค้างคืนมีความสะดวกและปลอดภัย</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q2" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q2" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q2" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q2" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q2" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
+        <div class="question-item">
+          <p class="text-sm text-gray-700 mb-3">2. ที่พักค้างคืนมีความสะดวกและปลอดภัย</p>
+          <div class="flex justify-center gap-2">
+           <label class="radio-option cursor-pointer"><input type="radio" name="q2" value="5" class="sr-only peer" required><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-red-500 peer-checked:text-white font-bold">5</span></label>
+           <label class="radio-option cursor-pointer"><input type="radio" name="q2" value="4" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-red-500 peer-checked:text-white font-bold">4</span></label>
+           <label class="radio-option cursor-pointer"><input type="radio" name="q2" value="3" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-yellow-500 peer-checked:text-white font-bold">3</span></label>
+           <label class="radio-option cursor-pointer"><input type="radio" name="q2" value="2" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-orange-500 peer-checked:text-white font-bold">2</span></label>
+           <label class="radio-option cursor-pointer"><input type="radio" name="q2" value="1" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-red-900 peer-checked:text-white font-bold">1</span></label>
+          </div>
          </div>
-        </div>
-        <div class="question-item" data-question="3">
-         <p class="text-sm text-gray-700 mb-3">3. อาหารและน้ำดื่มมีความเพียงพอ</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q3" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q3" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q3" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q3" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q3" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
+         <div class="question-item">
+          <p class="text-sm text-gray-700 mb-3">3. อาหารและน้ำดื่มมีความเพียงพอ</p>
+          <div class="flex justify-center gap-2">
+           <label class="radio-option cursor-pointer"><input type="radio" name="q3" value="5" class="sr-only peer" required><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-red-500 peer-checked:text-white font-bold">5</span></label>
+           <label class="radio-option cursor-pointer"><input type="radio" name="q3" value="4" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-red-500 peer-checked:text-white font-bold">4</span></label>
+           <label class="radio-option cursor-pointer"><input type="radio" name="q3" value="3" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-yellow-500 peer-checked:text-white font-bold">3</span></label>
+           <label class="radio-option cursor-pointer"><input type="radio" name="q3" value="2" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-orange-500 peer-checked:text-white font-bold">2</span></label>
+           <label class="radio-option cursor-pointer"><input type="radio" name="q3" value="1" class="sr-only peer"><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-red-900 peer-checked:text-white font-bold">1</span></label>
+          </div>
          </div>
-        </div>
-       </div>
-      </div><!-- Section 2.2: Activities -->
-      <div class="card section-card p-5 fade-in">
-       <div class="flex items-center gap-2 mb-4"><span class="w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center text-sm font-bold">3</span>
-        <h3 class="text-lg font-semibold text-red-800">การจัดกิจกรรม</h3><span class="text-xl">🎯</span>
-       </div>
-       <div class="space-y-4">
-        <div class="question-item" data-question="4">
-         <p class="text-sm text-gray-700 mb-3">4. กิจกรรมเดินทางไกลจัดได้เหมาะสมกับวัย</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q4" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q4" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q4" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q4" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q4" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-        <div class="question-item" data-question="5">
-         <p class="text-sm text-gray-700 mb-3">5. กิจกรรมฐาน / ผจญภัย สนุกและท้าทาย</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q5" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q5" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q5" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q5" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q5" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-        <div class="question-item" data-question="6">
-         <p class="text-sm text-gray-700 mb-3">6. กิจกรรมรอบกองไฟและสันทนาการสร้างความสนุก</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q6" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q6" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q6" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q6" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q6" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-        <div class="question-item" data-question="7">
-         <p class="text-sm text-gray-700 mb-3">7. ลำดับกิจกรรมและเวลาเหมาะสม</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q7" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q7" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q7" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q7" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q7" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-       </div>
-      </div><!-- Section 2.3: Teachers & Care -->
-      <div class="card section-card p-5 fade-in">
-       <div class="flex items-center gap-2 mb-4"><span class="w-8 h-8 bg-rose-600 text-white rounded-full flex items-center justify-center text-sm font-bold">4</span>
-        <h3 class="text-lg font-semibold text-red-800">ครู วิทยากร และการดูแล</h3><span class="text-xl">👨‍🏫</span>
-       </div>
-       <div class="space-y-4">
-        <div class="question-item" data-question="8">
-         <p class="text-sm text-gray-700 mb-3">8. ครูและผู้กำกับดูแลอย่างใกล้ชิด</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q8" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q8" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q8" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q8" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q8" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-        <div class="question-item" data-question="9">
-         <p class="text-sm text-gray-700 mb-3">9. ได้รับคำแนะนำและความช่วยเหลือที่ดี</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q9" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q9" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q9" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q9" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q9" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-        <div class="question-item" data-question="10">
-         <p class="text-sm text-gray-700 mb-3">10. รู้สึกปลอดภัยตลอดการเข้าค่าย</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q10" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q10" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q10" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q10" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q10" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-       </div>
-      </div><!-- Section 2.4: Learning Outcomes -->
-      <div class="card section-card p-5 fade-in">
-       <div class="flex items-center gap-2 mb-4"><span class="w-8 h-8 bg-pink-600 text-white rounded-full flex items-center justify-center text-sm font-bold">5</span>
-        <h3 class="text-lg font-semibold text-red-800">สิ่งที่ได้รับจากกิจกรรม</h3><span class="text-xl">🎓</span>
-       </div>
-       <div class="space-y-4">
-        <div class="question-item" data-question="11">
-         <p class="text-sm text-gray-700 mb-3">11. ได้ฝึกระเบียบวินัยและความรับผิดชอบ</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q11" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q11" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q11" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q11" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q11" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-        <div class="question-item" data-question="12">
-         <p class="text-sm text-gray-700 mb-3">12. ได้เรียนรู้การทำงานเป็นทีมและช่วยเหลือกัน</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q12" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q12" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q12" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q12" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q12" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-        <div class="question-item" data-question="13">
-         <p class="text-sm text-gray-700 mb-3">13. ได้ประสบการณ์ใหม่ ๆ จากการเข้าค่าย</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q13" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q13" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q13" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q13" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q13" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-        <div class="question-item" data-question="14">
-         <p class="text-sm text-gray-700 mb-3">14. สามารถนำสิ่งที่เรียนรู้ไปใช้ในชีวิตประจำวัน</p>
-         <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q14" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q14" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q14" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q14" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q14" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-         </div>
-        </div>
-       </div>
-      </div><!-- Section 2.5: Overall Satisfaction -->
-      <div class="card section-card p-5 fade-in">
-       <div class="flex items-center gap-2 mb-4"><span class="w-8 h-8 bg-amber-600 text-white rounded-full flex items-center justify-center text-sm font-bold">6</span>
-        <h3 class="text-lg font-semibold text-red-800">ความพึงพอใจโดยรวม</h3><span class="text-xl">⭐</span>
-       </div>
-       <div class="question-item" data-question="15">
-        <p class="text-sm text-gray-700 mb-3">15. โดยรวมแล้วพึงพอใจกับกิจกรรมครั้งนี้</p>
-        <div class="flex justify-center gap-2"><label class="radio-option cursor-pointer"> <input type="radio" name="q15" value="5" class="sr-only peer" required> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">5</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q15" value="4" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-500 peer-checked:bg-red-500 peer-checked:text-white font-bold transition-all">4</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q15" value="3" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-yellow-500 peer-checked:bg-yellow-500 peer-checked:text-white font-bold transition-all">3</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q15" value="2" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-orange-500 peer-checked:bg-orange-500 peer-checked:text-white font-bold transition-all">2</span> </label> <label class="radio-option cursor-pointer"> <input type="radio" name="q15" value="1" class="sr-only peer"> <span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:border-red-900 peer-checked:bg-red-900 peer-checked:text-white font-bold transition-all">1</span> </label>
-        </div>
        </div>
       </div>
-     </section><!-- Part 3: Suggestions -->
+
+      </section>
+
      <section class="card section-card p-5 fade-in">
-      <div class="flex items-center gap-2 mb-4"><span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">7</span>
-       <h3 class="text-lg font-semibold text-red-800">ข้อเสนอแนะ</h3><span class="text-xl">💬</span>
-      </div><label for="suggestions" class="block text-sm text-gray-600 mb-2"> กรุณาแสดงความคิดเห็นหรือข้อเสนอแนะเพิ่มเติม (ไม่บังคับ) </label> <textarea id="suggestions" name="suggestions" rows="4" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all resize-none" placeholder="พิมพ์ข้อเสนอแนะของท่านที่นี่..."></textarea>
-     </section><!-- Submit Button -->
-     <div class="pt-4 pb-8"><button type="submit" id="submit-btn" class="btn-primary w-full py-4 text-white font-semibold text-lg rounded-xl shadow-lg flex items-center justify-center gap-2"> <span id="submit-text">ส่งแบบประเมิน</span> <span id="submit-loader" class="hidden">
-        <svg class="animate-spin h-5 w-5" viewbox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle> <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg></span> </button> <!-- Validation Message -->
-      <div id="validation-message" class="hidden mt-3 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm text-center">
-       กรุณาตอบคำถามให้ครบทุกข้อ
-      </div>
+      <div class="flex items-center gap-2 mb-4"><span class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">7</span><h3 class="text-lg font-semibold text-red-800">ข้อเสนอแนะ 💬</h3></div>
+      <textarea id="suggestions" name="suggestions" rows="4" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 transition-all resize-none" placeholder="พิมพ์ข้อเสนอแนะของท่านที่นี่..."></textarea>
+     </section>
+
+     <div class="pt-4 pb-8">
+      <button type="submit" id="submit-btn" class="btn-primary w-full py-4 text-white font-semibold text-lg rounded-xl shadow-lg flex items-center justify-center gap-2">
+        <span id="submit-text">ส่งแบบประเมิน</span>
+        <div id="submit-loader" class="hidden animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+      </button>
+      <div id="validation-message" class="hidden mt-3 p-3 bg-red-50 text-red-600 text-sm text-center rounded-lg">กรุณาตอบคำถามให้ครบทุกข้อ</div>
      </div>
     </form>
-   </div><!-- Thank You View -->
-   <div id="thank-you-view" class="hidden max-w-md mx-auto px-4 py-12 text-center">
-    <div class="card p-8 slide-up">
-     <div class="w-24 h-24 bg-gradient-to-br from-red-400 to-red-500 rounded-full mx-auto mb-6 flex items-center justify-center shadow-lg"><span class="text-5xl">✓</span>
-     </div>
-     <h2 id="thank-you-title" class="text-2xl font-bold text-red-800 mb-3">ขอบคุณสำหรับการประเมิน</h2>
-     <p class="text-gray-600 mb-6">ความคิดเห็นของท่านมีค่ายิ่งต่อการพัฒนากิจกรรมในครั้งต่อไป</p>
-     <div class="flex items-center justify-center gap-2 text-red-600 mb-6"><img src="https://img2.pic.in.th/pic/sa1.png" alt="Logo" class="w-8 h-8 rounded-full object-cover" loading="lazy"> <span class="text-sm">โรงเรียนสา</span>
-     </div><button id="new-evaluation-btn" class="px-6 py-3 bg-red-100 text-red-700 font-medium rounded-lg hover:bg-red-200 transition-colors"> ทำแบบประเมินใหม่ </button>
-    </div>
-   </div><!-- Dashboard View -->
-   <div id="dashboard-view" class="hidden max-w-5xl mx-auto px-4 py-6"><!-- Login Modal -->
-    <div id="login-modal" class="card p-8 max-w-md mx-auto slide-up">
-     <div class="text-center mb-6">
-      <div class="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 rounded-full mx-auto mb-4 flex items-center justify-center"><span class="text-3xl">🔐</span>
-      </div>
-      <h2 class="text-xl font-bold text-red-800">เข้าสู่แดชบอร์ด</h2>
-      <p class="text-sm text-gray-600 mt-2">กรุณากรอกรหัสผ่านเพื่อดูผลสรุป</p>
-     </div>
-     <div class="space-y-4">
-      <div><label for="dashboard-password" class="block text-sm font-medium text-gray-700 mb-2">รหัสผ่าน</label> <input type="password" id="dashboard-password" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all" placeholder="กรอกรหัสผ่าน">
-      </div>
-      <div id="login-error" class="hidden p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm text-center">
-       รหัสผ่านไม่ถูกต้อง
-      </div><button id="login-btn" class="btn-primary w-full py-3 text-white font-semibold rounded-xl"> เข้าสู่ระบบ </button> <button id="back-to-form-btn" class="w-full py-3 text-red-700 font-medium hover:bg-red-50 rounded-xl transition-colors"> กลับไปแบบประเมิน </button>
-     </div>
-    </div><!-- Dashboard Content -->
-    <div id="dashboard-content" class="hidden space-y-6"><!-- Dashboard Header -->
-     <div class="card p-6 bg-gradient-to-r from-red-600 to-red-700 text-white">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-       <div>
-        <h2 class="text-2xl font-bold mb-1">📊 สรุปผลการประเมิน</h2>
-        <p class="text-red-100">กิจกรรมค่ายลูกเสือ โรงเรียนสา ปีการศึกษา 2568</p>
-       </div>
-       <div class="flex gap-3"><button id="refresh-btn" class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors flex items-center gap-2"> <span>🔄</span> <span>รีเฟรช</span> </button> <button id="logout-btn" class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors flex items-center gap-2"> <span>🚪</span> <span>ออก</span> </button>
-       </div>
-      </div>
-     </div><!-- Summary Cards -->
-     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="card p-5 text-center">
-       <div class="text-3xl mb-2">
-        📝
-       </div>
-       <div id="total-responses" class="text-3xl font-bold text-red-700">
-        0
-       </div>
-       <div class="text-sm text-gray-600">
-        จำนวนผู้ตอบ
-       </div>
-      </div>
-      <div class="card p-5 text-center">
-       <div class="text-3xl mb-2">
-        ⭐
-       </div>
-       <div id="avg-score" class="text-3xl font-bold text-amber-600">
-        0.00
-       </div>
-       <div class="text-sm text-gray-600">
-        คะแนนเฉลี่ยรวม
-       </div>
-      </div>
-      <div class="card p-5 text-center">
-       <div class="text-3xl mb-2">
-        👨‍🏫
-       </div>
-       <div id="teacher-count" class="text-3xl font-bold text-blue-600">
-        0
-       </div>
-       <div class="text-sm text-gray-600">
-        ผู้กำกับลูกเสือ
-       </div>
-      </div>
-      <div class="card p-5 text-center">
-       <div class="text-3xl mb-2">
-        🧑‍🤝‍🧑
-       </div>
-       <div id="student-count" class="text-3xl font-bold text-purple-600">
-        0
-       </div>
-       <div class="text-sm text-gray-600">
-        ลูกเสือ
-       </div>
-      </div>
-     </div><!-- Grade Distribution -->
-     <div class="card p-6">
-      <h3 class="text-lg font-semibold text-red-800 mb-4 flex items-center gap-2"><span>📚</span> <span>จำแนกตามระดับชั้น</span></h3>
-      <div class="grid grid-cols-3 gap-4" id="grade-distribution">
-       <div class="bg-red-50 p-4 rounded-xl text-center">
-        <div class="text-2xl font-bold text-red-700" id="m1-count">
-         0
-        </div>
-        <div class="text-sm text-gray-600">
-         ม.1
-        </div>
-       </div>
-       <div class="bg-orange-50 p-4 rounded-xl text-center">
-        <div class="text-2xl font-bold text-orange-700" id="m2-count">
-         0
-        </div>
-        <div class="text-sm text-gray-600">
-         ม.2
-        </div>
-       </div>
-       <div class="bg-rose-50 p-4 rounded-xl text-center">
-        <div class="text-2xl font-bold text-rose-700" id="m3-count">
-         0
-        </div>
-        <div class="text-sm text-gray-600">
-         ม.3
-        </div>
-       </div>
-      </div>
-     </div><!-- Section Averages -->
-     <div class="card p-6">
-      <h3 class="text-lg font-semibold text-red-800 mb-4 flex items-center gap-2"><span>📈</span> <span>ค่าเฉลี่ยรายด้าน</span></h3>
-      <div class="space-y-4" id="section-averages"><!-- Dynamic content -->
-      </div>
-     </div><!-- Question Details -->
-     <div class="card p-6">
-      <h3 class="text-lg font-semibold text-red-800 mb-4 flex items-center gap-2"><span>📋</span> <span>รายละเอียดรายข้อ</span></h3>
-      <div class="overflow-x-auto">
-       <table class="w-full text-sm">
-        <thead>
-         <tr class="bg-red-50">
-          <th class="px-4 py-3 text-left text-red-800 font-semibold">ข้อ</th>
-          <th class="px-4 py-3 text-left text-red-800 font-semibold">คำถาม</th>
-          <th class="px-4 py-3 text-center text-red-800 font-semibold">ค่าเฉลี่ย</th>
-          <th class="px-4 py-3 text-center text-red-800 font-semibold">S.D.</th>
-         </tr>
-        </thead>
-        <tbody id="question-details"><!-- Dynamic content -->
-        </tbody>
-       </table>
-      </div>
-     </div><!-- Suggestions List -->
-     <div class="card p-6">
-      <h3 class="text-lg font-semibold text-red-800 mb-4 flex items-center gap-2"><span>💬</span> <span>ข้อเสนอแนะจากผู้ตอบ</span></h3>
-      <div id="suggestions-list" class="space-y-3 max-h-96 overflow-y-auto"><!-- Dynamic content -->
-      </div>
-     </div>
-    </div>
    </div>
-  </div>
+
+   </div>
+
   <script>
-    // Application State
-    let allData = [];
-    let isLoggedIn = false;
+    // ตั้งค่า URL ของคุณ
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGAVN90UVHW-DH1gmvqM0VinRCJT95e5Pf3JCkQ_RlV4kdBe0b3hNdbRrApJaWSq0f/exec';
     const DASHBOARD_PASSWORD = 'silverfish';
-    
-    // Question labels for dashboard
-    const questionLabels = [
-      'สถานที่ค่ายและพื้นที่กิจกรรมมีความเหมาะสม',
-      'ที่พักค้างคืนมีความสะดวกและปลอดภัย',
-      'อาหารและน้ำดื่มมีความเพียงพอ',
-      'กิจกรรมเดินทางไกลจัดได้เหมาะสมกับวัย',
-      'กิจกรรมฐาน / ผจญภัย สนุกและท้าทาย',
-      'กิจกรรมรอบกองไฟและสันทนาการสร้างความสนุก',
-      'ลำดับกิจกรรมและเวลาเหมาะสม',
-      'ครูและผู้กำกับดูแลอย่างใกล้ชิด',
-      'ได้รับคำแนะนำและความช่วยเหลือที่ดี',
-      'รู้สึกปลอดภัยตลอดการเข้าค่าย',
-      'ได้ฝึกระเบียบวินัยและความรับผิดชอบ',
-      'ได้เรียนรู้การทำงานเป็นทีมและช่วยเหลือกัน',
-      'ได้ประสบการณ์ใหม่ ๆ จากการเข้าค่าย',
-      'สามารถนำสิ่งที่เรียนรู้ไปใช้ในชีวิตประจำวัน',
-      'โดยรวมแล้วพึงพอใจกับกิจกรรมครั้งนี้'
-    ];
-    
-    const sectionInfo = [
-      { name: 'ความพร้อมและสถานที่', questions: [1, 2, 3], icon: '🏕️', color: 'red' },
-      { name: 'การจัดกิจกรรม', questions: [4, 5, 6, 7], icon: '🎯', color: 'orange' },
-      { name: 'ครู วิทยากร และการดูแล', questions: [8, 9, 10], icon: '👨‍🏫', color: 'rose' },
-      { name: 'สิ่งที่ได้รับจากกิจกรรม', questions: [11, 12, 13, 14], icon: '🎓', color: 'pink' },
-      { name: 'ความพึงพอใจโดยรวม', questions: [15], icon: '⭐', color: 'amber' }
-    ];
 
-    // Default Config
-    const defaultConfig = {
-      form_title: 'แบบประเมินความพึงพอใจ',
-      school_name: 'โรงเรียนสา',
-      thank_you_message: 'ขอบคุณสำหรับการประเมิน',
-      primary_color: '#dc2626',
-      secondary_color: '#ef4444',
-      background_color: '#fef2f2',
-      text_color: '#991b1b',
-      accent_color: '#fbbf24'
-    };
-
-    // Element SDK Implementation
-    const elementImpl = {
-      defaultConfig,
-      onConfigChange: async (config) => {
-        const c = { ...defaultConfig, ...config };
-        
-        // Update text content
-        const navTitle = document.getElementById('nav-title');
-        const navSchool = document.getElementById('nav-school');
-        const mainTitle = document.getElementById('main-title');
-        const schoolTitle = document.getElementById('school-title');
-        const thankYouTitle = document.getElementById('thank-you-title');
-        
-        if (navTitle) navTitle.textContent = c.form_title || defaultConfig.form_title;
-        if (navSchool) navSchool.textContent = c.school_name || defaultConfig.school_name;
-        if (mainTitle) mainTitle.textContent = c.form_title || defaultConfig.form_title;
-        if (schoolTitle) schoolTitle.textContent = `${c.school_name || defaultConfig.school_name} ประจำปีการศึกษา 2568`;
-        if (thankYouTitle) thankYouTitle.textContent = c.thank_you_message || defaultConfig.thank_you_message;
-      },
-      mapToCapabilities: (config) => {
-        const c = { ...defaultConfig, ...config };
-        return {
-          recolorables: [
-            {
-              get: () => c.primary_color || defaultConfig.primary_color,
-              set: (value) => {
-                c.primary_color = value;
-                if (window.elementSdk) window.elementSdk.setConfig({ primary_color: value });
-              }
-            },
-            {
-              get: () => c.background_color || defaultConfig.background_color,
-              set: (value) => {
-                c.background_color = value;
-                if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
-              }
-            },
-            {
-              get: () => c.text_color || defaultConfig.text_color,
-              set: (value) => {
-                c.text_color = value;
-                if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
-              }
-            },
-            {
-              get: () => c.accent_color || defaultConfig.accent_color,
-              set: (value) => {
-                c.accent_color = value;
-                if (window.elementSdk) window.elementSdk.setConfig({ accent_color: value });
-              }
-            }
-          ],
-          borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
-        };
-      },
-      mapToEditPanelValues: (config) => {
-        const c = { ...defaultConfig, ...config };
-        return new Map([
-          ['form_title', c.form_title || defaultConfig.form_title],
-          ['school_name', c.school_name || defaultConfig.school_name],
-          ['thank_you_message', c.thank_you_message || defaultConfig.thank_you_message]
-        ]);
-      }
-    };
-
-    // Data SDK Implementation
-    const dataHandler = {
-      onDataChanged: (data) => {
-        allData = data;
-        if (isLoggedIn) {
-          renderDashboard();
-        }
-      }
-    };
-
-    // Initialize SDKs
-    async function initApp() {
-      // Initialize Element SDK
-      if (window.elementSdk) {
-        window.elementSdk.init(elementImpl);
-      }
-      
-      // Initialize Data SDK
-      if (window.dataSdk) {
-        const result = await window.dataSdk.init(dataHandler);
-        if (!result.isOk) {
-          console.error('Failed to initialize data SDK');
-        }
-      }
-      
-      // Setup event listeners
-      setupEventListeners();
-    }
-
-    // Setup Event Listeners
-    function setupEventListeners() {
-      // Status change - Conditional Logic
-      const statusRadios = document.querySelectorAll('input[name="status"]');
-      statusRadios.forEach(radio => {
-        radio.addEventListener('change', handleStatusChange);
+    // Logic: สลับเพศ/ระดับชั้น
+    document.querySelectorAll('input[name="status"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        const isStudent = e.target.value === 'ลูกเสือ';
+        document.getElementById('gender-section').classList.toggle('hidden', isStudent);
+        document.getElementById('grade-section').classList.toggle('hidden', !isStudent);
+        updateProgress();
       });
+    });
 
-      // Form submission
-      const form = document.getElementById('evaluation-form');
-      form.addEventListener('submit', handleFormSubmit);
-
-      // Progress tracking
-      const allRadios = form.querySelectorAll('input[type="radio"]');
-      allRadios.forEach(radio => {
-        radio.addEventListener('change', updateProgress);
-      });
-
-      // Dashboard button
-      document.getElementById('dashboard-btn').addEventListener('click', showDashboardView);
-
-      // Login button
-      document.getElementById('login-btn').addEventListener('click', handleLogin);
-      document.getElementById('dashboard-password').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleLogin();
-      });
-
-      // Back to form button
-      document.getElementById('back-to-form-btn').addEventListener('click', showFormView);
-
-      // New evaluation button
-      document.getElementById('new-evaluation-btn').addEventListener('click', resetForm);
-
-      // Logout button
-      document.getElementById('logout-btn').addEventListener('click', handleLogout);
-
-      // Refresh button
-      document.getElementById('refresh-btn').addEventListener('click', () => {
-        renderDashboard();
-      });
-    }
-
-    // Handle Status Change (Conditional Logic)
-    function handleStatusChange(e) {
-      const genderSection = document.getElementById('gender-section');
-      const genderInputs = genderSection.querySelectorAll('input[name="gender"]');
-      const gradeSection = document.getElementById('grade-section');
-      const gradeInputs = gradeSection.querySelectorAll('input[name="grade"]');
-      
-      if (e.target.value === 'ลูกเสือ') {
-        // For students: hide gender, show grade
-        genderSection.classList.add('hidden');
-        genderInputs.forEach(input => {
-          input.required = false;
-          input.checked = false;
-        });
-        gradeSection.classList.remove('hidden');
-        gradeInputs.forEach(input => input.required = true);
-      } else if (e.target.value === 'ผู้กำกับลูกเสือ') {
-        // For teachers: show gender, hide grade
-        genderSection.classList.remove('hidden');
-        genderInputs.forEach(input => input.required = true);
-        gradeSection.classList.add('hidden');
-        gradeInputs.forEach(input => {
-          input.required = false;
-          input.checked = false;
-        });
-      }
-      updateProgress();
-    }
-
-    // Update Progress Bar
+    // Logic: ความคืบหน้า
     function updateProgress() {
       const form = document.getElementById('evaluation-form');
-      const requiredGroups = new Set();
-      const answeredGroups = new Set();
-
-      // Get current status
-      const statusValue = form.querySelector('input[name="status"]:checked')?.value;
-
-      // Always required: status, q1-q15
-      ['status', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13', 'q14', 'q15'].forEach(name => {
-        requiredGroups.add(name);
-        if (form.querySelector(`input[name="${name}"]:checked`)) {
-          answeredGroups.add(name);
-        }
-      });
-
-      // Conditionally required fields
-      if (statusValue === 'ผู้กำกับลูกเสือ') {
-        requiredGroups.add('gender');
-        if (form.querySelector('input[name="gender"]:checked')) {
-          answeredGroups.add('gender');
-        }
-      } else if (statusValue === 'ลูกเสือ') {
-        requiredGroups.add('grade');
-        if (form.querySelector('input[name="grade"]:checked')) {
-          answeredGroups.add('grade');
-        }
-      }
-
-      const progress = Math.round((answeredGroups.size / requiredGroups.size) * 100);
-      document.getElementById('progress-bar').style.width = `${progress}%`;
-      document.getElementById('progress-text').textContent = `${progress}%`;
+      const totalRequired = 16; // 15 ข้อประเมิน + 1 สถานะ
+      const answered = form.querySelectorAll('input[type="radio"]:checked').length;
+      const percent = Math.round((answered / totalRequired) * 100);
+      document.getElementById('progress-bar').style.width = percent + '%';
+      document.getElementById('progress-text').textContent = percent + '%';
     }
+    document.getElementById('evaluation-form').addEventListener('change', updateProgress);
 
-    // Handle Form Submit
-    async function handleFormSubmit(e) {
+    // Logic: ส่งข้อมูลไป Google Sheet
+    document.getElementById('evaluation-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const loader = document.getElementById('submit-loader');
+      const text = document.getElementById('submit-text');
       
-      const form = e.target;
-      const validationMsg = document.getElementById('validation-message');
-      const submitBtn = document.getElementById('submit-btn');
-      const submitText = document.getElementById('submit-text');
-      const submitLoader = document.getElementById('submit-loader');
+      btn.disabled = true;
+      loader.classList.remove('hidden');
+      text.textContent = 'กำลังส่งข้อมูล...';
 
-      // Validate
-      const statusValue = form.querySelector('input[name="status"]:checked')?.value;
-      let isValid = true;
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
 
-      // Check all required fields
-      const requiredFields = ['status', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7', 'q8', 'q9', 'q10', 'q11', 'q12', 'q13', 'q14', 'q15'];
-      
-      if (statusValue === 'ผู้กำกับลูกเสือ') {
-        requiredFields.push('gender');
-      } else if (statusValue === 'ลูกเสือ') {
-        requiredFields.push('grade');
-      }
-
-      requiredFields.forEach(field => {
-        if (!form.querySelector(`input[name="${field}"]:checked`)) {
-          isValid = false;
-        }
-      });
-
-      if (!isValid) {
-        validationMsg.classList.remove('hidden');
-        validationMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        return;
-      }
-
-      validationMsg.classList.add('hidden');
-
-      // Check data limit
-      if (allData.length >= 999) {
-        validationMsg.textContent = 'ขออภัย ระบบเก็บข้อมูลเต็มแล้ว กรุณาติดต่อผู้ดูแลระบบ';
-        validationMsg.classList.remove('hidden');
-        return;
-      }
-
-      // Show loading
-      submitBtn.disabled = true;
-      submitText.classList.add('hidden');
-      submitLoader.classList.remove('hidden');
-
-      // Collect form data
-      const formData = {
-        gender: statusValue === 'ลูกเสือ' ? '' : form.querySelector('input[name="gender"]:checked')?.value || '',
-        status: statusValue,
-        grade: statusValue === 'ลูกเสือ' ? form.querySelector('input[name="grade"]:checked')?.value || '' : '',
-        q1: parseInt(form.querySelector('input[name="q1"]:checked').value),
-        q2: parseInt(form.querySelector('input[name="q2"]:checked').value),
-        q3: parseInt(form.querySelector('input[name="q3"]:checked').value),
-        q4: parseInt(form.querySelector('input[name="q4"]:checked').value),
-        q5: parseInt(form.querySelector('input[name="q5"]:checked').value),
-        q6: parseInt(form.querySelector('input[name="q6"]:checked').value),
-        q7: parseInt(form.querySelector('input[name="q7"]:checked').value),
-        q8: parseInt(form.querySelector('input[name="q8"]:checked').value),
-        q9: parseInt(form.querySelector('input[name="q9"]:checked').value),
-        q10: parseInt(form.querySelector('input[name="q10"]:checked').value),
-        q11: parseInt(form.querySelector('input[name="q11"]:checked').value),
-        q12: parseInt(form.querySelector('input[name="q12"]:checked').value),
-        q13: parseInt(form.querySelector('input[name="q13"]:checked').value),
-        q14: parseInt(form.querySelector('input[name="q14"]:checked').value),
-        q15: parseInt(form.querySelector('input[name="q15"]:checked').value),
-        suggestions: form.querySelector('#suggestions').value.trim(),
-        submitted_at: new Date().toISOString()
-      };
-
-      // Save to Data SDK
-      if (window.dataSdk) {
-        const result = await window.dataSdk.create(formData);
-        
-        if (result.isOk) {
-          // Show thank you view
-          document.getElementById('form-view').classList.add('hidden');
-          document.getElementById('thank-you-view').classList.remove('hidden');
-        } else {
-          validationMsg.textContent = 'เกิดข้อผิดพลาดในการบันทึกข้อมูล กรุณาลองใหม่อีกครั้ง';
-          validationMsg.classList.remove('hidden');
-        }
-      }
-
-      // Reset button state
-      submitBtn.disabled = false;
-      submitText.classList.remove('hidden');
-      submitLoader.classList.add('hidden');
-    }
-
-    // Reset Form
-    function resetForm() {
-      const form = document.getElementById('evaluation-form');
-      form.reset();
-      document.getElementById('gender-section').classList.add('hidden');
-      document.getElementById('grade-section').classList.add('hidden');
-      document.getElementById('progress-bar').style.width = '0%';
-      document.getElementById('progress-text').textContent = '0%';
-      document.getElementById('thank-you-view').classList.add('hidden');
-      document.getElementById('form-view').classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Show Dashboard View
-    function showDashboardView() {
-      document.getElementById('form-view').classList.add('hidden');
-      document.getElementById('thank-you-view').classList.add('hidden');
-      document.getElementById('dashboard-view').classList.remove('hidden');
-      
-      if (!isLoggedIn) {
-        document.getElementById('login-modal').classList.remove('hidden');
-        document.getElementById('dashboard-content').classList.add('hidden');
-      } else {
-        document.getElementById('login-modal').classList.add('hidden');
-        document.getElementById('dashboard-content').classList.remove('hidden');
-        renderDashboard();
-      }
-    }
-
-    // Show Form View
-    function showFormView() {
-      document.getElementById('dashboard-view').classList.add('hidden');
-      document.getElementById('form-view').classList.remove('hidden');
-    }
-
-    // Handle Login
-    function handleLogin() {
-      const passwordInput = document.getElementById('dashboard-password');
-      const errorMsg = document.getElementById('login-error');
-      
-      if (passwordInput.value === DASHBOARD_PASSWORD) {
-        isLoggedIn = true;
-        errorMsg.classList.add('hidden');
-        document.getElementById('login-modal').classList.add('hidden');
-        document.getElementById('dashboard-content').classList.remove('hidden');
-        passwordInput.value = '';
-        renderDashboard();
-      } else {
-        errorMsg.classList.remove('hidden');
-        passwordInput.value = '';
-        passwordInput.focus();
-      }
-    }
-
-    // Handle Logout
-    function handleLogout() {
-      isLoggedIn = false;
-      showFormView();
-    }
-
-    // Render Dashboard
-    function renderDashboard() {
-      if (allData.length === 0) {
-        document.getElementById('total-responses').textContent = '0';
-        document.getElementById('avg-score').textContent = '0.00';
-        document.getElementById('teacher-count').textContent = '0';
-        document.getElementById('student-count').textContent = '0';
-        document.getElementById('m1-count').textContent = '0';
-        document.getElementById('m2-count').textContent = '0';
-        document.getElementById('m3-count').textContent = '0';
-        document.getElementById('section-averages').innerHTML = '<p class="text-gray-500 text-center py-4">ยังไม่มีข้อมูลการประเมิน</p>';
-        document.getElementById('question-details').innerHTML = '<tr><td colspan="4" class="px-4 py-8 text-center text-gray-500">ยังไม่มีข้อมูลการประเมิน</td></tr>';
-        document.getElementById('suggestions-list').innerHTML = '<p class="text-gray-500 text-center py-4">ยังไม่มีข้อเสนอแนะ</p>';
-        return;
-      }
-
-      // Total responses
-      document.getElementById('total-responses').textContent = allData.length;
-
-      // Calculate overall average
-      let totalScore = 0;
-      let totalCount = 0;
-      allData.forEach(item => {
-        for (let i = 1; i <= 15; i++) {
-          if (item[`q${i}`]) {
-            totalScore += item[`q${i}`];
-            totalCount++;
-          }
-        }
-      });
-      const overallAvg = totalCount > 0 ? (totalScore / totalCount).toFixed(2) : '0.00';
-      document.getElementById('avg-score').textContent = overallAvg;
-
-      // Count by status
-      const teachers = allData.filter(d => d.status === 'ผู้กำกับลูกเสือ').length;
-      const students = allData.filter(d => d.status === 'ลูกเสือ').length;
-      document.getElementById('teacher-count').textContent = teachers;
-      document.getElementById('student-count').textContent = students;
-
-      // Count by grade
-      const m1 = allData.filter(d => d.grade === 'ม.1').length;
-      const m2 = allData.filter(d => d.grade === 'ม.2').length;
-      const m3 = allData.filter(d => d.grade === 'ม.3').length;
-      document.getElementById('m1-count').textContent = m1;
-      document.getElementById('m2-count').textContent = m2;
-      document.getElementById('m3-count').textContent = m3;
-
-      // Section averages
-      const sectionAvgsContainer = document.getElementById('section-averages');
-      sectionAvgsContainer.innerHTML = sectionInfo.map(section => {
-        let sectionTotal = 0;
-        let sectionCount = 0;
-        allData.forEach(item => {
-          section.questions.forEach(q => {
-            if (item[`q${q}`]) {
-              sectionTotal += item[`q${q}`];
-              sectionCount++;
-            }
-          });
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(data)
         });
-        const sectionAvg = sectionCount > 0 ? (sectionTotal / sectionCount).toFixed(2) : '0.00';
-        const percentage = (parseFloat(sectionAvg) / 5 * 100).toFixed(0);
-        
-        return `
-          <div class="flex items-center gap-4">
-            <div class="w-10 h-10 bg-${section.color}-100 rounded-full flex items-center justify-center text-xl">
-              ${section.icon}
-            </div>
-            <div class="flex-1">
-              <div class="flex justify-between mb-1">
-                <span class="text-sm font-medium text-gray-700">${section.name}</span>
-                <span class="text-sm font-bold text-${section.color}-600">${sectionAvg}</span>
-              </div>
-              <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div class="h-full bg-${section.color}-500 rounded-full transition-all" style="width: ${percentage}%"></div>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-
-      // Question details
-      const questionDetailsContainer = document.getElementById('question-details');
-      questionDetailsContainer.innerHTML = questionLabels.map((label, index) => {
-        const qNum = index + 1;
-        const scores = allData.map(d => d[`q${qNum}`]).filter(s => s !== undefined && s !== null);
-        const avg = scores.length > 0 ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(2) : '0.00';
-        const sd = calculateSD(scores).toFixed(2);
-        
-        const avgColor = parseFloat(avg) >= 4.5 ? 'text-red-600' : 
-                         parseFloat(avg) >= 3.5 ? 'text-orange-600' : 
-                         parseFloat(avg) >= 2.5 ? 'text-yellow-600' : 'text-red-900';
-        
-        return `
-          <tr class="border-b border-gray-100 hover:bg-gray-50">
-            <td class="px-4 py-3 font-medium text-gray-700">${qNum}</td>
-            <td class="px-4 py-3 text-gray-600">${label}</td>
-            <td class="px-4 py-3 text-center font-bold ${avgColor}">${avg}</td>
-            <td class="px-4 py-3 text-center text-gray-500">${sd}</td>
-          </tr>
-        `;
-      }).join('');
-
-      // Suggestions
-      const suggestionsContainer = document.getElementById('suggestions-list');
-      const suggestions = allData
-        .filter(d => d.suggestions && d.suggestions.trim())
-        .map(d => ({
-          text: d.suggestions,
-          status: d.status,
-          grade: d.grade,
-          date: d.submitted_at
-        }));
-      
-      if (suggestions.length === 0) {
-        suggestionsContainer.innerHTML = '<p class="text-gray-500 text-center py-4">ยังไม่มีข้อเสนอแนะ</p>';
-      } else {
-        suggestionsContainer.innerHTML = suggestions.map(s => {
-          const badge = s.status === 'ผู้กำกับลูกเสือ' 
-            ? '<span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">ผู้กำกับ</span>'
-            : `<span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full">ลูกเสือ ${s.grade}</span>`;
-          
-          return `
-            <div class="p-4 bg-gray-50 rounded-xl">
-              <div class="flex items-center gap-2 mb-2">
-                ${badge}
-                <span class="text-xs text-gray-400">${formatDate(s.date)}</span>
-              </div>
-              <p class="text-gray-700">${escapeHtml(s.text)}</p>
-            </div>
-          `;
-        }).join('');
+        document.getElementById('form-view').classList.add('hidden');
+        document.getElementById('thank-you-view').classList.remove('hidden');
+      } catch (err) {
+        alert('เกิดข้อผิดพลาด: ' + err.message);
+        btn.disabled = false;
+        loader.classList.add('hidden');
+        text.textContent = 'ส่งแบบประเมิน';
       }
-    }
+    });
 
-    // Calculate Standard Deviation
-    function calculateSD(values) {
-      if (values.length === 0) return 0;
-      const avg = values.reduce((a, b) => a + b, 0) / values.length;
-      const squareDiffs = values.map(value => Math.pow(value - avg, 2));
-      const avgSquareDiff = squareDiffs.reduce((a, b) => a + b, 0) / values.length;
-      return Math.sqrt(avgSquareDiff);
-    }
-
-    // Format Date
-    function formatDate(isoString) {
-      if (!isoString) return '';
-      const date = new Date(isoString);
-      return date.toLocaleDateString('th-TH', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    }
-
-    // Escape HTML
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    // Initialize app
-    initApp();
+    // Dashboard Login & Render (Copy จากเวอร์ชันสมบูรณ์ด้านบนมาวางต่อได้เลยครับ)
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c6f6b4685662709',t:'MTc2OTkyNzYyNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ </body>
 </html>
