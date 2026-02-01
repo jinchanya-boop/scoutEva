@@ -9,24 +9,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { box-sizing: border-box; font-family: 'Sarabun', sans-serif; }
+    body { box-sizing: border-box; font-family: 'Sarabun', sans-serif; margin: 0; padding: 0; }
     .radio-option { transition: all 0.2s ease; }
-    .radio-option:hover { transform: translateY(-2px); }
-    .radio-option input:checked + span { transform: scale(1.05); }
-    .fade-in { animation: fadeIn 0.4s ease-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .slide-up { animation: slideUp 0.5s ease-out; }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .radio-option input:checked + span { transform: scale(1.05); background-color: #dc2626; color: white; border-color: #dc2626; }
     .progress-bar { transition: width 0.3s ease; }
     .btn-primary { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); transition: all 0.3s ease; }
     .card { background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); }
     .section-card { background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%); border: 1px solid #fee2e2; }
-    .rating-btn { min-width: 44px; min-height: 44px; }
+    .rating-btn { min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; border: 2px solid #e5e7eb; border-radius: 9999px; font-weight: bold; transition: all 0.2s; }
+    /* ป้องกัน iframe หรือ element แปลกปลอมมาบังปุ่ม */
+    #app { position: relative; z-index: 1; }
+    iframe { display: none !important; } 
   </style>
 </head>
 <body class="h-full bg-gradient-to-br from-red-50 via-orange-50 to-red-100">
   <div id="app" class="h-full overflow-auto">
-    <nav id="navbar" class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
       <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
         <div class="flex items-center gap-3">
           <img src="https://img2.pic.in.th/pic/sa1.png" alt="Logo" class="w-10 h-10 rounded-full object-cover">
@@ -35,114 +33,67 @@
             <p class="text-xs text-red-600">โรงเรียนสา</p>
           </div>
         </div>
-        <button id="dashboard-btn" class="px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-100 rounded-lg transition-colors">📊 แดชบอร์ด</button>
+        <button id="dashboard-btn" class="px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-100 rounded-lg">📊 แดชบอร์ด</button>
       </div>
     </nav>
 
-    <div id="form-view" class="max-w-2xl mx-auto px-4 py-6">
-      <header class="text-center mb-8 slide-up">
-        <img src="https://img2.pic.in.th/pic/sa1.png" alt="School Logo" class="w-20 h-20 rounded-full mx-auto mb-4 shadow-lg object-cover">
-        <h1 class="text-xl md:text-2xl font-bold text-red-800 mb-2">แบบประเมินความพึงพอใจ</h1>
-        <h2 class="text-base md:text-lg font-medium text-red-700 mb-1">กิจกรรมเดินทางไกลและเข้าค่ายพักแรมลูกเสือสามัญรุ่นใหญ่</h2>
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-red-100 rounded-full text-sm text-red-700 mt-2">
-          <span>📅</span> <span>30 – 31 มกราคม 2569</span>
-        </div>
+    <div id="form-view" class="max-w-2xl mx-auto px-4 py-6 pb-24"> <header class="text-center mb-8">
+        <img src="https://img2.pic.in.th/pic/sa1.png" alt="Logo" class="w-20 h-20 rounded-full mx-auto mb-4 shadow-lg">
+        <h1 class="text-xl md:text-2xl font-bold text-red-800">แบบประเมินความพึงพอใจ</h1>
+        <p class="text-sm text-red-600 mt-2">การจัดกิจกรรมเดินทางไกลและเข้าค่ายพักแรม 2568</p>
       </header>
 
-      <div class="mb-6">
-        <div class="flex justify-between text-xs text-red-600 mb-1"><span>ความคืบหน้า</span> <span id="progress-text">0%</span></div>
-        <div class="h-2 bg-red-100 rounded-full overflow-hidden">
-          <div id="progress-bar" class="progress-bar h-full bg-gradient-to-r from-red-500 to-orange-500" style="width: 0%"></div>
-        </div>
-      </div>
-
       <form id="evaluation-form" class="space-y-6">
-        <section class="card section-card p-5 fade-in">
-          <div class="flex items-center gap-2 mb-4">
-            <span class="w-8 h-8 bg-red-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</span>
-            <h3 class="text-lg font-semibold text-red-800">ข้อมูลทั่วไป</h3>
-          </div>
-          <div class="mb-5">
-            <label class="block text-sm font-medium text-gray-700 mb-3">สถานะ <span class="text-red-500">*</span></label>
-            <div class="flex gap-4">
-              <label class="radio-option flex-1 cursor-pointer">
-                <input type="radio" name="status" value="ผู้กำกับลูกเสือ" class="sr-only peer" required>
-                <span class="block p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50">👨‍🏫 ผู้กำกับ</span>
-              </label>
-              <label class="radio-option flex-1 cursor-pointer">
-                <input type="radio" name="status" value="ลูกเสือ" class="sr-only peer">
-                <span class="block p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500 peer-checked:bg-red-50">🧑‍🤝‍🧑 ลูกเสือ</span>
-              </label>
-            </div>
-          </div>
-          <div id="gender-section" class="mb-5 hidden">
-            <label class="block text-sm font-medium text-gray-700 mb-3">เพศ <span class="text-red-500">*</span></label>
-            <div class="flex gap-4">
-              <label class="radio-option flex-1 cursor-pointer"><input type="radio" name="gender" value="ชาย" class="sr-only peer"><span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500">ชาย</span></label>
-              <label class="radio-option flex-1 cursor-pointer"><input type="radio" name="gender" value="หญิง" class="sr-only peer"><span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500">หญิง</span></label>
-            </div>
-          </div>
-          <div id="grade-section" class="hidden">
-            <label class="block text-sm font-medium text-gray-700 mb-3">ระดับชั้น <span class="text-red-500">*</span></label>
-            <div class="flex gap-3">
-              <label class="radio-option flex-1 cursor-pointer"><input type="radio" name="grade" value="ม.1" class="sr-only peer"><span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500">ม.1</span></label>
-              <label class="radio-option flex-1 cursor-pointer"><input type="radio" name="grade" value="ม.2" class="sr-only peer"><span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500">ม.2</span></label>
-              <label class="radio-option flex-1 cursor-pointer"><input type="radio" name="grade" value="ม.3" class="sr-only peer"><span class="block p-3 text-center border-2 border-gray-200 rounded-xl peer-checked:border-red-500">ม.3</span></label>
+        <section class="card section-card p-5">
+          <h3 class="text-lg font-semibold text-red-800 mb-4">1. ข้อมูลทั่วไป</h3>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">สถานะ *</label>
+              <div class="flex gap-4">
+                <label class="flex-1 cursor-pointer"><input type="radio" name="status" value="ผู้กำกับลูกเสือ" class="sr-only peer" required><span class="rating-btn peer-checked:bg-red-600 peer-checked:text-white peer-checked:border-red-600">ผู้กำกับ</span></label>
+                <label class="flex-1 cursor-pointer"><input type="radio" name="status" value="ลูกเสือ" class="sr-only peer"><span class="rating-btn peer-checked:bg-red-600 peer-checked:text-white peer-checked:border-red-600">ลูกเสือ</span></label>
+              </div>
             </div>
           </div>
         </section>
 
-        <div id="questions-container" class="space-y-6"></div>
+        <div id="questions-area" class="space-y-6"></div>
 
         <section class="card section-card p-5">
-          <h3 class="text-lg font-semibold text-red-800 mb-4">ข้อเสนอแนะ 💬</h3>
-          <textarea name="suggestions" rows="4" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 transition-all" placeholder="พิมพ์ข้อเสนอแนะที่นี่..."></textarea>
+          <h3 class="text-lg font-semibold text-red-800 mb-2">ข้อเสนอแนะ</h3>
+          <textarea name="suggestions" rows="4" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 outline-none" placeholder="พิมพ์ข้อความที่นี่..."></textarea>
         </section>
 
-        <button type="submit" id="submit-btn" class="btn-primary w-full py-4 text-white font-semibold text-lg rounded-xl shadow-lg flex items-center justify-center gap-2">
-          <span id="submit-text">ส่งแบบประเมิน</span>
-          <div id="submit-loader" class="hidden animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+        <button type="submit" id="submit-btn" class="btn-primary w-full py-4 text-white font-bold text-lg rounded-xl shadow-xl">
+          ส่งแบบประเมิน
         </button>
       </form>
     </div>
 
-    <div id="thank-you-view" class="hidden max-w-md mx-auto px-4 py-12 text-center">
-      <div class="card p-8 slide-up">
-        <div class="w-20 h-20 bg-green-500 text-white rounded-full mx-auto mb-4 flex items-center justify-center text-4xl">✓</div>
-        <h2 class="text-2xl font-bold text-red-800 mb-2">บันทึกข้อมูลสำเร็จ</h2>
-        <button onclick="location.reload()" class="mt-4 px-6 py-2 bg-red-100 text-red-700 rounded-lg">กลับหน้าหลัก</button>
-      </div>
-    </div>
-
-    <div id="dashboard-view" class="hidden max-w-5xl mx-auto px-4 py-6">
-      <div id="login-section" class="card p-8 max-w-md mx-auto text-center">
-        <h2 class="text-xl font-bold text-red-800 mb-6">🔐 เข้าสู่แดชบอร์ด</h2>
-        <input type="password" id="pw" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl mb-4" placeholder="รหัสผ่าน">
-        <button onclick="checkLogin()" class="btn-primary w-full py-3 text-white rounded-xl font-bold">ยืนยัน</button>
-        <button onclick="showForm()" class="text-sm text-gray-500 mt-4 block w-full text-center">ยกเลิก</button>
-      </div>
-
-      <div id="dashboard-content" class="hidden space-y-6">
-        <div class="card p-6 bg-red-800 text-white flex justify-between items-center">
-          <h2 class="text-2xl font-bold">📊 ผลสรุปการประเมิน</h2>
-          <button onclick="showForm()" class="bg-white/20 px-4 py-2 rounded-lg text-sm">กลับหน้าหลัก</button>
+    <div id="dashboard-view" class="hidden max-w-4xl mx-auto px-4 py-6">
+        <div class="card p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-red-800">📊 ผลการประเมินรวม</h2>
+                <button onclick="window.location.reload()" class="text-sm text-gray-500 underline">กลับหน้าหลัก</button>
+            </div>
+            <div id="dash-loading" class="text-center py-10">กำลังโหลดข้อมูล...</div>
+            <div id="dash-stats" class="hidden space-y-4">
+                <div class="grid grid-cols-2 gap-4" id="summary-cards"></div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50"><tr><th class="p-2">ข้อ</th><th class="p-2">หัวข้อ</th><th class="p-2 text-center">Avg.</th></tr></thead>
+                        <tbody id="dash-table"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-        <div id="stats-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-        <div class="card p-6 overflow-x-auto">
-          <table class="w-full text-left text-sm">
-            <thead><tr class="border-b"><th class="py-3">ข้อที่</th><th class="py-3">หัวข้อ</th><th class="py-3 text-center">คะแนนเฉลี่ย</th><th class="py-3 text-center">S.D.</th></tr></thead>
-            <tbody id="table-body"></tbody>
-          </table>
-        </div>
-      </div>
     </div>
   </div>
 
   <script>
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGAVN90UVHW-DH1gmvqM0VinRCJT95e5Pf3JCkQ_RlV4kdBe0b3hNdbRrApJaWSq0f/exec';
-    const ADMIN_PW = 'silverfish';
     
-    const questionLabels = [
+    const labels = [
       'สถานที่ค่ายและพื้นที่กิจกรรมมีความเหมาะสม', 'ที่พักค้างคืนมีความสะดวกและปลอดภัย', 'อาหารและน้ำดื่มมีความเพียงพอ',
       'กิจกรรมเดินทางไกลจัดได้เหมาะสมกับวัย', 'กิจกรรมฐาน / ผจญภัย สนุกและท้าทาย', 'กิจกรรมรอบกองไฟและสันทนาการสร้างความสนุก',
       'ลำดับกิจกรรมและเวลาเหมาะสม', 'ครูและผู้กำกับดูแลอย่างใกล้ชิด', 'ได้รับคำแนะนำและความช่วยเหลือที่ดี',
@@ -150,35 +101,16 @@
       'ได้ประสบการณ์ใหม่ ๆ จากการเข้าค่าย', 'สามารถนำสิ่งที่เรียนรู้ไปใช้ในชีวิตประจำวัน', 'โดยรวมแล้วพึงพอใจกับกิจกรรมครั้งนี้'
     ];
 
-    // สร้างคำถามครบ 15 ข้อ
-    const qContainer = document.getElementById('questions-container');
-    const sections = [
-        { name: "ความพร้อมและสถานที่ 🏕️", range: [1, 3] },
-        { name: "การจัดกิจกรรม 🎯", range: [4, 7] },
-        { name: "ครู วิทยากร และการดูแล 👨‍🏫", range: [8, 10] },
-        { name: "สิ่งที่ได้รับจากกิจกรรม 🎓", range: [11, 14] },
-        { name: "ความพึงพอใจโดยรวม ⭐", range: [15, 15] }
-    ];
-
-    sections.forEach((sec, idx) => {
-        let html = `<section class="card section-card p-5 fade-in"><h3 class="text-lg font-semibold text-red-800 mb-4">${idx+2}. ${sec.name}</h3><div class="space-y-6">`;
-        for (let i = sec.range[0]; i <= sec.range[1]; i++) {
-            html += `<div class="question-item"><p class="text-sm text-gray-700 mb-3">${i}. ${questionLabels[i-1]}</p><div class="flex justify-center gap-2">`;
-            [5,4,3,2,1].forEach(v => {
-                html += `<label class="cursor-pointer"><input type="radio" name="q${i}" value="${v}" class="sr-only peer" required><span class="rating-btn flex items-center justify-center w-11 h-11 border-2 border-gray-200 rounded-full peer-checked:bg-red-600 peer-checked:text-white font-bold transition-all">${v}</span></label>`;
-            });
-            html += `</div></div>`;
-        }
-        html += `</div></section>`;
-        qContainer.innerHTML += html;
-    });
-
-    // สลับเพศ/ชั้น
-    document.querySelectorAll('input[name="status"]').forEach(r => {
-      r.addEventListener('change', (e) => {
-        document.getElementById('gender-section').classList.toggle('hidden', e.target.value === 'ลูกเสือ');
-        document.getElementById('grade-section').classList.toggle('hidden', e.target.value !== 'ลูกเสือ');
+    // สร้าง UI คำถาม
+    const area = document.getElementById('questions-area');
+    labels.forEach((text, i) => {
+      const qNum = i + 1;
+      let html = `<div class="card p-5"><p class="text-sm font-medium text-gray-700 mb-4">${qNum}. ${text}</p><div class="flex justify-between gap-2">`;
+      [5,4,3,2,1].forEach(v => {
+        html += `<label class="cursor-pointer flex-1"><input type="radio" name="q${qNum}" value="${v}" class="sr-only peer" required><span class="rating-btn peer-checked:bg-red-600 peer-checked:text-white">${v}</span></label>`;
       });
+      html += `</div></div>`;
+      area.innerHTML += html;
     });
 
     // ส่งข้อมูล
@@ -186,58 +118,48 @@
       e.preventDefault();
       const btn = document.getElementById('submit-btn');
       btn.disabled = true;
-      document.getElementById('submit-loader').classList.remove('hidden');
+      btn.innerText = 'กำลังส่งข้อมูล...';
       
       const data = Object.fromEntries(new FormData(e.target).entries());
       try {
         await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) });
-        document.getElementById('form-view').classList.add('hidden');
-        document.getElementById('thank-you-view').classList.remove('hidden');
+        alert('ส่งข้อมูลสำเร็จ ขอบคุณครับ');
+        location.reload();
       } catch (err) {
         alert('เกิดข้อผิดพลาด');
         btn.disabled = false;
-        document.getElementById('submit-loader').classList.add('hidden');
+        btn.innerText = 'ส่งแบบประเมิน';
       }
     });
 
-    // Dashboard Logic
-    document.getElementById('dashboard-btn').addEventListener('click', () => {
-      document.getElementById('form-view').classList.add('hidden');
-      document.getElementById('dashboard-view').classList.remove('hidden');
+    // แดชบอร์ด
+    document.getElementById('dashboard-btn').addEventListener('click', async () => {
+        document.getElementById('form-view').classList.add('hidden');
+        document.getElementById('dashboard-view').classList.remove('hidden');
+        
+        try {
+            const res = await fetch(SCRIPT_URL);
+            const data = await res.json();
+            document.getElementById('dash-loading').classList.add('hidden');
+            const dashStats = document.getElementById('dash-stats');
+            dashStats.classList.remove('hidden');
+
+            const total = data.length;
+            document.getElementById('summary-cards').innerHTML = `
+                <div class="p-4 bg-red-50 rounded-xl text-center"><p class="text-xs">ผู้ตอบทั้งหมด</p><p class="text-xl font-bold">${total}</p></div>
+                <div class="p-4 bg-orange-50 rounded-xl text-center"><p class="text-xs">คะแนนเฉลี่ยรวม</p><p class="text-xl font-bold">4.xx</p></div>
+            `;
+
+            const tbody = document.getElementById('dash-table');
+            tbody.innerHTML = labels.map((l, i) => {
+                const scores = data.map(d => Number(d[`q${i+1}`] || 0));
+                const avg = total > 0 ? (scores.reduce((a,b)=>a+b,0)/total).toFixed(2) : 0;
+                return `<tr class="border-b"><td class="p-2">${i+1}</td><td class="p-2 text-xs">${l}</td><td class="p-2 text-center font-bold text-red-600">${avg}</td></tr>`;
+            }).join('');
+        } catch (e) {
+            document.getElementById('dash-loading').innerText = 'ไม่สามารถโหลดข้อมูลได้';
+        }
     });
-
-    function showForm() {
-      document.getElementById('dashboard-view').classList.add('hidden');
-      document.getElementById('form-view').classList.remove('hidden');
-    }
-
-    function checkLogin() {
-      if(document.getElementById('pw').value === ADMIN_PW) {
-        document.getElementById('login-section').classList.add('hidden');
-        document.getElementById('dashboard-content').classList.remove('hidden');
-        fetchStats();
-      } else { alert('รหัสผ่านไม่ถูกต้อง'); }
-    }
-
-    async function fetchStats() {
-      const resp = await fetch(SCRIPT_URL);
-      const allData = await resp.json();
-      const total = allData.length;
-      
-      document.getElementById('stats-grid').innerHTML = `
-        <div class="card p-4 text-center"><p class="text-xs text-gray-500">จำนวนผู้ตอบ</p><p class="text-2xl font-bold text-red-700">${total}</p></div>
-        <div class="card p-4 text-center"><p class="text-xs text-gray-500">ลูกเสือ</p><p class="text-2xl font-bold text-blue-600">${allData.filter(d=>d.status==='ลูกเสือ').length}</p></div>
-        <div class="card p-4 text-center"><p class="text-xs text-gray-500">ผู้กำกับ</p><p class="text-2xl font-bold text-green-600">${allData.filter(d=>d.status!=='ลูกเสือ').length}</p></div>
-        <div class="card p-4 text-center"><p class="text-xs text-gray-500">คะแนนเฉลี่ยรวม</p><p class="text-2xl font-bold text-amber-600">--</p></div>
-      `;
-
-      document.getElementById('table-body').innerHTML = questionLabels.map((q, idx) => {
-        const scores = allData.map(d => Number(d[`q${idx+1}`] || 0));
-        const avg = total > 0 ? (scores.reduce((a,b)=>a+b,0)/total).toFixed(2) : 0;
-        const sd = total > 0 ? Math.sqrt(scores.map(x=>Math.pow(x-avg,2)).reduce((a,b)=>a+b,0)/total).toFixed(2) : 0;
-        return `<tr class="border-b"><td class="py-3">${idx+1}</td><td>${q}</td><td class="text-center font-bold text-red-600">${avg}</td><td class="text-center text-gray-500">${sd}</td></tr>`;
-      }).join('');
-    }
   </script>
 </body>
 </html>
